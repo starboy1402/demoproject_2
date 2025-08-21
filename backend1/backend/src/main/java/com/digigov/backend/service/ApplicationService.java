@@ -46,9 +46,13 @@ public class ApplicationService {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new IllegalArgumentException("User not found: " + userId));
 
-        // Get citizen profile
-        CitizenProfile citizenProfile = citizenProfileRepository.findByUser_UserId(userId)
-                .orElseThrow(() -> new IllegalArgumentException("Citizen profile not found for user: " + userId));
+        // Check if citizen profile exists - this is the dependency check
+        Optional<CitizenProfile> profileOpt = citizenProfileRepository.findByUser_UserId(userId);
+        if (!profileOpt.isPresent()) {
+            throw new IllegalArgumentException("Citizen profile not found. Please complete your profile before applying for services.");
+        }
+        
+        CitizenProfile citizenProfile = profileOpt.get();
 
         // Get service and validate
         com.digigov.backend.entity.Service service = serviceRepository.findById(serviceId)
