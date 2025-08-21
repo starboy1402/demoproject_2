@@ -31,7 +31,7 @@ public class Application {
     @JoinColumn(name = "user_id", nullable = false,
         foreignKey = @ForeignKey(
             name = "FK_APPLICATION_USER",
-            foreignKeyDefinition = "FOREIGN KEY (user_id) REFERENCES user(user_id) ON DELETE CASCADE ON UPDATE CASCADE"
+            foreignKeyDefinition = "FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE ON UPDATE CASCADE"
         )
     )
     private User user;

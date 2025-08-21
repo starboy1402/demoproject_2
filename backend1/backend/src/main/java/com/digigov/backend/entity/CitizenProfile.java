@@ -75,7 +75,7 @@ public class CitizenProfile {
 
     // UPDATED: User relationship with explicit foreign key constraint
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", nullable = false, foreignKey = @ForeignKey(name = "FK_CITIZEN_PROFILE_USER", foreignKeyDefinition = "FOREIGN KEY (user_id) REFERENCES user(user_id) ON DELETE CASCADE ON UPDATE CASCADE"))
+    @JoinColumn(name = "user_id", nullable = false, foreignKey = @ForeignKey(name = "FK_CITIZEN_PROFILE_USER", foreignKeyDefinition = "FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE ON UPDATE CASCADE"))
     private User user;
 
     // CitizenProfile → Applications: CASCADE DELETE (when profile deleted, delete
