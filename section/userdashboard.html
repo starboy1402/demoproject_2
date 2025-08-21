@@ -414,47 +414,73 @@ com/css2?family=Inter:wght@300;400;
             document.getElementById('profile-member').textContent = user.memberSince || (user.loginTime ? new Date(user.loginTime).toLocaleDateString() : 'N/A');
 
             // Load applications from backend
-            // Show loading row for applications
+            loadUserApplications(user.userId);
+            
+            // Load payments from backend
+            loadUserPayments(user.userId);
+
+            // Edit profile button (future)
+            document.getElementById('edit-profile-btn').addEventListener('click', function () {
+                alert('Profile editing coming soon!');
+            });
+        });
+
+        // Function to load user applications
+        function loadUserApplications(userId) {
             const appsTable = document.getElementById('applications-table');
-            appsTable.innerHTML = document.getElementById('applications-loading').outerHTML;
-            fetch(`http://localhost:8080/api/application/user/${user.userId}`)
-                .then(res => res.json())
+            appsTable.innerHTML = '<tr id="applications-loading"><td colspan="4" class="px-6 py-4 text-center text-gray-500 animate-pulse">Loading applications...</td></tr>';
+            
+            fetch(`http://localhost:8080/api/application/user/${userId}`)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                    }
+                    return response.json();
+                })
                 .then(apps => {
                     if (Array.isArray(apps) && apps.length > 0) {
                         appsTable.innerHTML = apps.map(app => `
                             <tr>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">${app.id || app.applicationId}</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">${app.serviceName}</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">${app.id || app.applicationId || 'N/A'}</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">${app.serviceName || app.serviceType || 'N/A'}</td>
                                 <td class="px-6 py-4 whitespace-nowrap">
-                                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${app.status === 'Approved' ? 'bg-green-100 text-green-800' : app.status === 'Pending' ? 'bg-yellow-100 text-yellow-800' : 'bg-red-100 text-red-800'}">${app.status}</span>
+                                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${app.status === 'APPROVED' ? 'bg-green-100 text-green-800' : app.status === 'PENDING' ? 'bg-yellow-100 text-yellow-800' : 'bg-red-100 text-red-800'}">${app.status || 'PENDING'}</span>
                                 </td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">${app.dateSubmitted ? new Date(app.dateSubmitted).toLocaleDateString() : ''}</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">${app.dateSubmitted ? new Date(app.dateSubmitted).toLocaleDateString() : app.submissionDate ? new Date(app.submissionDate).toLocaleDateString() : 'N/A'}</td>
                             </tr>
                         `).join('');
                     } else {
                         appsTable.innerHTML = '<tr><td colspan="4" class="px-6 py-4 text-center text-gray-500">No applications found.</td></tr>';
                     }
                 })
-                .catch(() => {
-                    appsTable.innerHTML = '<tr><td colspan="4" class="px-6 py-4 text-center text-red-500">Error loading applications.</td></tr>';
+                .catch(error => {
+                    console.error('Error loading applications:', error);
+                    appsTable.innerHTML = '<tr><td colspan="4" class="px-6 py-4 text-center text-red-500">Error loading applications. Please try again later.</td></tr>';
                 });
+        }
 
-            // Load payments from backend
-            // Show loading row for payments
+        // Function to load user payments
+        function loadUserPayments(userId) {
             const paymentsTable = document.getElementById('payments-table');
-            paymentsTable.innerHTML = document.getElementById('payments-loading').outerHTML;
-            fetch(`http://localhost:8080/api/payment/user/${user.userId}`)
-                .then(res => res.json())
+            paymentsTable.innerHTML = '<tr id="payments-loading"><td colspan="5" class="px-6 py-4 text-center text-gray-500 animate-pulse">Loading payments...</td></tr>';
+            
+            fetch(`http://localhost:8080/api/payment/user/${userId}`)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                    }
+                    return response.json();
+                })
                 .then(payments => {
                     if (Array.isArray(payments) && payments.length > 0) {
                         paymentsTable.innerHTML = payments.map(pay => `
                             <tr>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">${pay.transactionId}</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">${pay.applicationId}</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">৳${pay.amount}</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">${pay.date ? new Date(pay.date).toLocaleDateString() : ''}</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">${pay.transactionId || pay.id || 'N/A'}</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">${pay.applicationId || 'N/A'}</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">৳${pay.amount || 'N/A'}</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">${pay.date ? new Date(pay.date).toLocaleDateString() : pay.paymentDate ? new Date(pay.paymentDate).toLocaleDateString() : 'N/A'}</td>
                                 <td class="px-6 py-4 whitespace-nowrap">
-                                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${pay.status === 'Completed' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}">${pay.status}</span>
+                                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${pay.status === 'COMPLETED' ? 'bg-green-100 text-green-800' : pay.status === 'PENDING' ? 'bg-yellow-100 text-yellow-800' : 'bg-red-100 text-red-800'}">${pay.status || 'PENDING'}</span>
                                 </td>
                             </tr>
                         `).join('');
@@ -462,15 +488,11 @@ com/css2?family=Inter:wght@300;400;
                         paymentsTable.innerHTML = '<tr><td colspan="5" class="px-6 py-4 text-center text-gray-500">No payments found.</td></tr>';
                     }
                 })
-                .catch(() => {
-                    paymentsTable.innerHTML = '<tr><td colspan="5" class="px-6 py-4 text-center text-red-500">Error loading payments.</td></tr>';
+                .catch(error => {
+                    console.error('Error loading payments:', error);
+                    paymentsTable.innerHTML = '<tr><td colspan="5" class="px-6 py-4 text-center text-red-500">Error loading payments. Please try again later.</td></tr>';
                 });
-
-            // Edit profile button (future)
-            document.getElementById('edit-profile-btn').addEventListener('click', function () {
-                alert('Profile editing coming soon!');
-            });
-        });
+        }
     </script>
 </body>
 
