@@ -1,0 +1,813 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Management - Admin Portal</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        /* User Management Specific Styles */
+        .management-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .management-header {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .header-left h1 {
+            color: #333;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .header-right {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .btn-admin {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background: #667eea;
+            color: white;
+        }
+
+        .btn-success {
+            background: #27ae60;
+            color: white;
+        }
+
+        .btn-warning {
+            background: #f39c12;
+            color: white;
+        }
+
+        .btn-danger {
+            background: #e74c3c;
+            color: white;
+        }
+
+        .btn-secondary {
+            background: #95a5a6;
+            color: white;
+        }
+
+        .btn-admin:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .search-section {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+
+        .search-form {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr auto;
+            gap: 15px;
+            align-items: end;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-label {
+            font-weight: 500;
+            color: #333;
+            margin-bottom: 5px;
+            font-size: 14px;
+        }
+
+        .form-input {
+            padding: 10px 12px;
+            border: 2px solid #e1e5e9;
+            border-radius: 5px;
+            font-size: 14px;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .users-section {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .section-header {
+            background: #f8f9fa;
+            padding: 20px;
+            border-bottom: 1px solid #e1e5e9;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .section-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #333;
+            margin: 0;
+        }
+
+        .users-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .users-table th,
+        .users-table td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #e1e5e9;
+        }
+
+        .users-table th {
+            background: #f8f9fa;
+            font-weight: 600;
+            color: #333;
+            font-size: 14px;
+        }
+
+        .users-table td {
+            font-size: 14px;
+            color: #555;
+        }
+
+        .users-table tbody tr:hover {
+            background: #f8f9fa;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #667eea;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .user-details h4 {
+            margin: 0;
+            font-size: 14px;
+            color: #333;
+        }
+
+        .user-details p {
+            margin: 2px 0 0 0;
+            font-size: 12px;
+            color: #666;
+        }
+
+        .status-badge {
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .status-active {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .status-inactive {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .status-suspended {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 8px;
+        }
+
+        .btn-small {
+            padding: 6px 12px;
+            font-size: 12px;
+            border-radius: 4px;
+        }
+
+        .loading-container {
+            padding: 50px;
+            text-align: center;
+            color: #666;
+        }
+
+        .loading-spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #667eea;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        .empty-state {
+            padding: 50px;
+            text-align: center;
+            color: #666;
+        }
+
+        .empty-state i {
+            font-size: 48px;
+            color: #ddd;
+            margin-bottom: 20px;
+        }
+
+        .pagination {
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid #e1e5e9;
+        }
+
+        .pagination-info {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .pagination-controls {
+            display: flex;
+            gap: 10px;
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+
+        .modal-content {
+            background-color: white;
+            margin: 5% auto;
+            padding: 30px;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 500px;
+            position: relative;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .modal-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .close {
+            color: #aaa;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .close:hover {
+            color: #000;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .management-container {
+                padding: 10px;
+            }
+
+            .management-header {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .search-form {
+                grid-template-columns: 1fr;
+            }
+
+            .users-table {
+                font-size: 12px;
+            }
+
+            .users-table th,
+            .users-table td {
+                padding: 10px 8px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="management-container">
+        <!-- Header -->
+        <div class="management-header">
+            <div class="header-left">
+                <h1><i class="fas fa-users"></i> User Management</h1>
+            </div>
+            <div class="header-right">
+                <button onclick="refreshUsers()" class="btn-admin btn-primary">
+                    <i class="fas fa-refresh"></i> Refresh
+                </button>
+                <a href="adminDashboard.html" class="btn-admin btn-secondary">
+                    <i class="fas fa-arrow-left"></i> Back to Dashboard
+                </a>
+            </div>
+        </div>
+
+        <!-- Search Section -->
+        <div class="search-section">
+            <form class="search-form" onsubmit="searchUsers(event)">
+                <div class="form-group">
+                    <label class="form-label">Search by Name</label>
+                    <input type="text" id="searchName" class="form-input" placeholder="Enter user name">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Search by Email</label>
+                    <input type="email" id="searchEmail" class="form-input" placeholder="Enter email address">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Status Filter</label>
+                    <select id="statusFilter" class="form-input">
+                        <option value="">All Statuses</option>
+                        <option value="active">Active</option>
+                        <option value="inactive">Inactive</option>
+                        <option value="suspended">Suspended</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn-admin btn-primary">
+                        <i class="fas fa-search"></i> Search
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Users Section -->
+        <div class="users-section">
+            <div class="section-header">
+                <h2 class="section-title">Registered Users</h2>
+                <div class="section-actions">
+                    <span id="userCount" class="pagination-info">Loading users...</span>
+                </div>
+            </div>
+
+            <div id="usersTableContainer">
+                <div class="loading-container">
+                    <div class="loading-spinner"></div>
+                    <p>Loading users...</p>
+                </div>
+            </div>
+
+            <div class="pagination" id="paginationContainer" style="display: none;">
+                <div class="pagination-info" id="paginationInfo">
+                    Showing 1-10 of 0 users
+                </div>
+                <div class="pagination-controls">
+                    <button onclick="previousPage()" class="btn-admin btn-secondary btn-small" id="prevBtn" disabled>
+                        <i class="fas fa-chevron-left"></i> Previous
+                    </button>
+                    <button onclick="nextPage()" class="btn-admin btn-secondary btn-small" id="nextBtn" disabled>
+                        Next <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- User Details Modal -->
+    <div id="userModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">User Details</h2>
+                <span class="close" onclick="closeUserModal()">&times;</span>
+            </div>
+            <div id="userModalContent">
+                <!-- User details will be loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Backend API Base URL
+        const API_BASE_URL = 'http://localhost:8080/api';
+
+        // State variables
+        let currentUsers = [];
+        let filteredUsers = [];
+        let currentPage = 1;
+        const usersPerPage = 10;
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function () {
+            checkAdminAuthentication();
+            loadUsers();
+        });
+
+        // Authentication check
+        function checkAdminAuthentication() {
+            const adminToken = localStorage.getItem('adminToken');
+            if (!adminToken) {
+                alert('Please log in as administrator');
+                window.location.href = 'adminLogin.html';
+                return;
+            }
+        }
+
+        // Load all users
+        async function loadUsers() {
+            try {
+                showLoading();
+
+                const response = await fetch(`${API_BASE_URL}/user/all`, {
+                    headers: {
+                        'Authorization': `Bearer ${localStorage.getItem('adminToken')}`,
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                if (response.ok) {
+                    currentUsers = await response.json();
+                    filteredUsers = [...currentUsers];
+                    displayUsers();
+                    updateUserCount();
+                } else {
+                    throw new Error('Failed to load users');
+                }
+
+            } catch (error) {
+                console.error('Error loading users:', error);
+                showError('Failed to load users. Please try again.');
+            }
+        }
+
+        // Display users in table
+        function displayUsers() {
+            const container = document.getElementById('usersTableContainer');
+
+            if (filteredUsers.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-users"></i>
+                        <h3>No users found</h3>
+                        <p>No users match your current search criteria.</p>
+                    </div>
+                `;
+                document.getElementById('paginationContainer').style.display = 'none';
+                return;
+            }
+
+            // Calculate pagination
+            const startIndex = (currentPage - 1) * usersPerPage;
+            const endIndex = startIndex + usersPerPage;
+            const usersToShow = filteredUsers.slice(startIndex, endIndex);
+
+            // Generate table
+            const tableHTML = `
+                <table class="users-table">
+                    <thead>
+                        <tr>
+                            <th>User</th>
+                            <th>Contact</th>
+                            <th>Registration Date</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${usersToShow.map(user => `
+                            <tr>
+                                <td>
+                                    <div class="user-info">
+                                        <div class="user-avatar">
+                                            ${getInitials(user.firstName, user.lastName)}
+                                        </div>
+                                        <div class="user-details">
+                                            <h4>${user.firstName} ${user.lastName}</h4>
+                                            <p>ID: ${user.id}</p>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div>
+                                        <strong>${user.email}</strong><br>
+                                        <small>${user.phoneNumber || 'No phone'}</small>
+                                    </div>
+                                </td>
+                                <td>
+                                    ${formatDate(user.registrationDate)}
+                                </td>
+                                <td>
+                                    <span class="status-badge status-${getStatusClass(user.status)}">
+                                        ${user.status || 'Active'}
+                                    </span>
+                                </td>
+                                <td>
+                                    <div class="action-buttons">
+                                        <button onclick="viewUser(${user.id})" class="btn-admin btn-primary btn-small">
+                                            <i class="fas fa-eye"></i> View
+                                        </button>
+                                        <button onclick="editUser(${user.id})" class="btn-admin btn-warning btn-small">
+                                            <i class="fas fa-edit"></i> Edit
+                                        </button>
+                                        <button onclick="toggleUserStatus(${user.id})" class="btn-admin btn-secondary btn-small">
+                                            <i class="fas fa-ban"></i> ${user.status === 'active' ? 'Suspend' : 'Activate'}
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        `).join('')}
+                    </tbody>
+                </table>
+            `;
+
+            container.innerHTML = tableHTML;
+            updatePagination();
+        }
+
+        // Search users
+        function searchUsers(event) {
+            event.preventDefault();
+
+            const nameQuery = document.getElementById('searchName').value.toLowerCase().trim();
+            const emailQuery = document.getElementById('searchEmail').value.toLowerCase().trim();
+            const statusFilter = document.getElementById('statusFilter').value;
+
+            filteredUsers = currentUsers.filter(user => {
+                const nameMatch = !nameQuery ||
+                    `${user.firstName} ${user.lastName}`.toLowerCase().includes(nameQuery);
+
+                const emailMatch = !emailQuery ||
+                    user.email.toLowerCase().includes(emailQuery);
+
+                const statusMatch = !statusFilter ||
+                    (user.status || 'active').toLowerCase() === statusFilter;
+
+                return nameMatch && emailMatch && statusMatch;
+            });
+
+            currentPage = 1;
+            displayUsers();
+            updateUserCount();
+        }
+
+        // View user details
+        async function viewUser(userId) {
+            try {
+                const response = await fetch(`${API_BASE_URL}/user/${userId}`, {
+                    headers: {
+                        'Authorization': `Bearer ${localStorage.getItem('adminToken')}`,
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                if (response.ok) {
+                    const user = await response.json();
+                    showUserModal(user);
+                } else {
+                    alert('Failed to load user details');
+                }
+            } catch (error) {
+                console.error('Error loading user:', error);
+                alert('Error loading user details');
+            }
+        }
+
+        // Show user modal
+        function showUserModal(user) {
+            const modalContent = document.getElementById('userModalContent');
+            modalContent.innerHTML = `
+                <div class="user-details-form">
+                    <div class="form-group">
+                        <label class="form-label">Full Name</label>
+                        <input type="text" class="form-input" value="${user.firstName} ${user.lastName}" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Email</label>
+                        <input type="email" class="form-input" value="${user.email}" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Phone Number</label>
+                        <input type="text" class="form-input" value="${user.phoneNumber || 'Not provided'}" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Registration Date</label>
+                        <input type="text" class="form-input" value="${formatDate(user.registrationDate)}" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Status</label>
+                        <input type="text" class="form-input" value="${user.status || 'Active'}" readonly>
+                    </div>
+                    <div class="form-group">
+                        <button onclick="editUser(${user.id})" class="btn-admin btn-warning">
+                            <i class="fas fa-edit"></i> Edit User
+                        </button>
+                        <button onclick="closeUserModal()" class="btn-admin btn-secondary">
+                            <i class="fas fa-times"></i> Close
+                        </button>
+                    </div>
+                </div>
+            `;
+
+            document.getElementById('userModal').style.display = 'block';
+        }
+
+        // Close user modal
+        function closeUserModal() {
+            document.getElementById('userModal').style.display = 'none';
+        }
+
+        // Edit user (placeholder)
+        function editUser(userId) {
+            alert(`Edit user functionality will be implemented. User ID: ${userId}`);
+            closeUserModal();
+        }
+
+        // Toggle user status (placeholder)
+        function toggleUserStatus(userId) {
+            if (confirm('Are you sure you want to change this user\'s status?')) {
+                alert(`User status toggle functionality will be implemented. User ID: ${userId}`);
+                // TODO: Implement status toggle API call
+            }
+        }
+
+        // Refresh users
+        function refreshUsers() {
+            // Clear search filters
+            document.getElementById('searchName').value = '';
+            document.getElementById('searchEmail').value = '';
+            document.getElementById('statusFilter').value = '';
+
+            currentPage = 1;
+            loadUsers();
+        }
+
+        // Utility functions
+        function getInitials(firstName, lastName) {
+            return `${firstName?.charAt(0) || ''}${lastName?.charAt(0) || ''}`.toUpperCase();
+        }
+
+        function formatDate(dateString) {
+            if (!dateString) return 'Unknown';
+            return new Date(dateString).toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'short',
+                day: 'numeric'
+            });
+        }
+
+        function getStatusClass(status) {
+            switch ((status || 'active').toLowerCase()) {
+                case 'active': return 'active';
+                case 'inactive': return 'inactive';
+                case 'suspended': return 'suspended';
+                default: return 'active';
+            }
+        }
+
+        function showLoading() {
+            document.getElementById('usersTableContainer').innerHTML = `
+                <div class="loading-container">
+                    <div class="loading-spinner"></div>
+                    <p>Loading users...</p>
+                </div>
+            `;
+        }
+
+        function showError(message) {
+            document.getElementById('usersTableContainer').innerHTML = `
+                <div class="empty-state">
+                    <i class="fas fa-exclamation-triangle" style="color: #e74c3c;"></i>
+                    <h3>Error</h3>
+                    <p>${message}</p>
+                    <button onclick="loadUsers()" class="btn-admin btn-primary">
+                        <i class="fas fa-refresh"></i> Try Again
+                    </button>
+                </div>
+            `;
+        }
+
+        function updateUserCount() {
+            const count = filteredUsers.length;
+            const total = currentUsers.length;
+            const countText = count === total ?
+                `${total} users` :
+                `${count} of ${total} users`;
+
+            document.getElementById('userCount').textContent = countText;
+        }
+
+        // Pagination functions
+        function updatePagination() {
+            const totalPages = Math.ceil(filteredUsers.length / usersPerPage);
+            const startItem = (currentPage - 1) * usersPerPage + 1;
+            const endItem = Math.min(currentPage * usersPerPage, filteredUsers.length);
+
+            document.getElementById('paginationInfo').textContent =
+                `Showing ${startItem}-${endItem} of ${filteredUsers.length} users`;
+
+            document.getElementById('prevBtn').disabled = currentPage === 1;
+            document.getElementById('nextBtn').disabled = currentPage === totalPages || totalPages === 0;
+
+            document.getElementById('paginationContainer').style.display =
+                filteredUsers.length > usersPerPage ? 'flex' : 'none';
+        }
+
+        function previousPage() {
+            if (currentPage > 1) {
+                currentPage--;
+                displayUsers();
+            }
+        }
+
+        function nextPage() {
+            const totalPages = Math.ceil(filteredUsers.length / usersPerPage);
+            if (currentPage < totalPages) {
+                currentPage++;
+                displayUsers();
+            }
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function (event) {
+            const modal = document.getElementById('userModal');
+            if (event.target === modal) {
+                closeUserModal();
+            }
+        }
+    </script>
+</body>
+
+</html>

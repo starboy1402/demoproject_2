@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - DigiGov</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        /* Admin Dashboard Specific Styles */
+        .admin-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .admin-header {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .admin-welcome {
+            color: #333;
+        }
+
+        .admin-actions {
+            display: flex;
+            gap: 15px;
+        }
+
+        .btn-admin {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background: #667eea;
+            color: white;
+        }
+
+        .btn-danger {
+            background: #e74c3c;
+            color: white;
+        }
+
+        .btn-admin:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+        .dashboard-card {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .dashboard-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .card-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: white;
+        }
+
+        .icon-users {
+            background: #3498db;
+        }
+
+        .icon-applications {
+            background: #e74c3c;
+        }
+
+        .icon-services {
+            background: #2ecc71;
+        }
+
+        .icon-payments {
+            background: #f39c12;
+        }
+
+        .icon-documents {
+            background: #9b59b6;
+        }
+
+        .icon-complaints {
+            background: #e67e22;
+        }
+
+        .card-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .card-value {
+            font-size: 36px;
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+
+        .card-description {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .management-section {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .section-title {
+            font-size: 24px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .management-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .management-card {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+            transition: all 0.3s ease;
+        }
+
+        .management-card:hover {
+            background: #e9ecef;
+            transform: translateX(5px);
+        }
+
+        .management-card h4 {
+            color: #333;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .management-card p {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 15px;
+        }
+
+        .card-actions {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .btn-small {
+            padding: 8px 15px;
+            font-size: 12px;
+            border-radius: 4px;
+        }
+
+        .loading {
+            text-align: center;
+            color: #666;
+            font-style: italic;
+        }
+
+        .error {
+            color: #e74c3c;
+            text-align: center;
+            padding: 10px;
+            background: #ffeaea;
+            border-radius: 5px;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .admin-container {
+                padding: 10px;
+            }
+
+            .admin-header {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .management-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="admin-container">
+        <!-- Admin Header -->
+        <div class="admin-header">
+            <div class="admin-welcome">
+                <h1><i class="fas fa-shield-alt"></i> Admin Dashboard</h1>
+                <p>Welcome back, <span id="adminName">Administrator</span></p>
+            </div>
+            <div class="admin-actions">
+                <a href="adminLogin.html" class="btn-admin btn-primary">
+                    <i class="fas fa-user-cog"></i> Manage Account
+                </a>
+                <button onclick="logout()" class="btn-admin btn-danger">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </button>
+            </div>
+        </div>
+
+        <!-- Dashboard Statistics - Simplified for Application Management Only -->
+        <div class="dashboard-grid">
+            <div class="dashboard-card">
+                <div class="card-header">
+                    <div class="card-icon icon-applications">
+                        <i class="fas fa-file-alt"></i>
+                    </div>
+                    <div class="card-title">Total Applications</div>
+                </div>
+                <div class="card-value" id="totalApplications">Loading...</div>
+                <div class="card-description">All submitted applications</div>
+            </div>
+
+            <div class="dashboard-card">
+                <div class="card-header">
+                    <div class="card-icon" style="background: #f39c12;">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <div class="card-title">Pending Applications</div>
+                </div>
+                <div class="card-value" id="pendingApplications">Loading...</div>
+                <div class="card-description">Awaiting admin review</div>
+            </div>
+
+            <div class="dashboard-card">
+                <div class="card-header">
+                    <div class="card-icon" style="background: #2ecc71;">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <div class="card-title">Approved Applications</div>
+                </div>
+                <div class="card-value" id="approvedApplications">Loading...</div>
+                <div class="card-description">Successfully approved</div>
+            </div>
+
+            <div class="dashboard-card">
+                <div class="card-header">
+                    <div class="card-icon" style="background: #e74c3c;">
+                        <i class="fas fa-times-circle"></i>
+                    </div>
+                    <div class="card-title">Rejected Applications</div>
+                </div>
+                <div class="card-value" id="rejectedApplications">Loading...</div>
+                <div class="card-description">Applications rejected</div>
+            </div>
+        </div>
+
+        <!-- Management Section - Simplified for Application Management Only -->
+        <div class="management-section">
+            <h2 class="section-title">
+                <i class="fas fa-file-alt"></i>
+                Application Management
+            </h2>
+
+            <div class="management-grid">
+                <div class="management-card">
+                    <h4><i class="fas fa-file-alt"></i> Manage Applications</h4>
+                    <p>Review pending applications and approve or reject them</p>
+                    <div class="card-actions">
+                        <button onclick="viewPendingApplications()" class="btn-admin btn-primary btn-small">
+                            <i class="fas fa-clock"></i> Pending Applications
+                        </button>
+                        <button onclick="viewAllApplications()" class="btn-admin btn-primary btn-small">
+                            <i class="fas fa-list"></i> All Applications
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Backend API Base URL
+        const API_BASE_URL = 'http://localhost:8080/api';
+
+        // Admin Dashboard JavaScript
+        document.addEventListener('DOMContentLoaded', function () {
+            // Check if admin is logged in
+            checkAdminAuthentication();
+
+            // Load dashboard statistics
+            loadDashboardStatistics();
+        });
+
+        // Authentication Check
+        function checkAdminAuthentication() {
+            const adminToken = localStorage.getItem('adminToken');
+            const adminData = localStorage.getItem('adminData');
+
+            if (!adminToken || !adminData) {
+                alert('Please log in as administrator');
+                window.location.href = 'adminLogin.html';
+                return;
+            }
+
+            try {
+                const admin = JSON.parse(adminData);
+                document.getElementById('adminName').textContent = admin.username || 'Administrator';
+            } catch (e) {
+                console.error('Error parsing admin data:', e);
+            }
+        }
+
+        // Load Dashboard Statistics - Simplified for Application Management
+        async function loadDashboardStatistics() {
+            try {
+                // Load only application statistics
+                const applicationStats = await fetchStatistic('/application/statistics');
+
+                // Update UI with application statistics
+                document.getElementById('totalApplications').textContent = applicationStats.totalApplications || 0;
+                document.getElementById('pendingApplications').textContent = applicationStats.pendingApplications || 0;
+                document.getElementById('approvedApplications').textContent = applicationStats.approvedApplications || 0;
+                document.getElementById('rejectedApplications').textContent = applicationStats.rejectedApplications || 0;
+
+            } catch (error) {
+                console.error('Error loading dashboard statistics:', error);
+                showError('Failed to load dashboard statistics');
+            }
+        }
+
+        // Fetch statistic from API
+        async function fetchStatistic(endpoint) {
+            const response = await fetch(`${API_BASE_URL}${endpoint}`, {
+                headers: {
+                    // 'Authorization': `Bearer ${localStorage.getItem('adminToken')}`, // Temporarily disabled for testing
+                    'Content-Type': 'application/json'
+                }
+            });
+
+            if (!response.ok) {
+                throw new Error(`Failed to fetch ${endpoint}: ${response.status} ${response.statusText}`);
+            }
+
+            return await response.json();
+        }
+
+        // Management Functions - Simplified for Application Management Only
+        function viewPendingApplications() {
+            // Navigate to application management with pending filter
+            window.location.href = 'adminApplicationManagement.html?status=PENDING';
+        }
+
+        function viewAllApplications() {
+            window.location.href = 'adminApplicationManagement.html';
+        }
+
+        // Utility Functions
+        function logout() {
+            if (confirm('Are you sure you want to logout?')) {
+                localStorage.removeItem('adminToken');
+                localStorage.removeItem('adminData');
+                alert('Logged out successfully');
+                window.location.href = 'adminLogin.html';
+            }
+        }
+
+        function showError(message) {
+            // Replace loading text with error message
+            const loadingElements = document.querySelectorAll('[id^="total"]');
+            loadingElements.forEach(element => {
+                if (element.textContent === 'Loading...') {
+                    element.textContent = 'Error';
+                    element.style.color = '#e74c3c';
+                }
+            });
+            console.error(message);
+        }
+
+        // Auto-refresh statistics every 30 seconds
+        setInterval(loadDashboardStatistics, 30000);
+    </script>
+</body>
+
+</html>
