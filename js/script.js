@@ -1,6 +1,26 @@
 //    ->  hero Selection  <-
 
-document.addEventListener("DOMContentLoaded", function () {
+// payment
+function redirectToPayment() {
+  window.location.href = 'section/payment-page.html';
+}
+
+// Consolidated DOMContentLoaded event listener for better performance
+document.addEventListener('DOMContentLoaded', function () {
+  // Initialize background slideshow
+  initializeBackgroundSlideshow();
+  
+  // Initialize signup form validation
+  initializeSignupValidation();
+  
+  // Initialize payment form validation
+  initializePaymentValidation();
+  
+  // Initialize particles if element exists
+  initializeParticles();
+});
+
+function initializeBackgroundSlideshow() {
   const slideshow = document.getElementById('background-slideshow');
   if (!slideshow) return; // Ensure element exists
 
@@ -24,18 +44,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
   changeBackground(); // initial
   setInterval(changeBackground, 5000); // change every 5s
-});
-
-// payment
-function redirectToPayment() {
-  window.location.href = 'section/payment-page.html';
 }
 
-
-//sign up option
-
-
-document.addEventListener('DOMContentLoaded', function () {
+function initializeSignupValidation() {
   // ১. সবগুলো ইনপুট ফিল্ড এবং বাটনকে সিলেক্ট করুন
   const nameInput = document.getElementById('name');
   const emailInput = document.getElementById('email');
@@ -44,6 +55,11 @@ document.addEventListener('DOMContentLoaded', function () {
   const confirmPasswordInput = document.getElementById('confirm-password');
   const signupLink = document.getElementById('signup-link');
   const passwordError = document.getElementById('password-error');
+
+  // Check if elements exist before proceeding (performance optimization)
+  if (!nameInput || !emailInput || !phoneInput || !passwordInput || !confirmPasswordInput || !signupLink) {
+    return; // Exit if signup form elements don't exist on this page
+  }
 
   // বাটনের আসল লিংক একটি ভেরিয়েবলে রাখুন
   const originalHref = signupLink.href;
@@ -86,19 +102,18 @@ document.addEventListener('DOMContentLoaded', function () {
 
   // ৫. পেইজ লোড হওয়ার সময় একবার চালিয়ে বাটনটি ডিজেবল করে রাখুন
   validateForm();
-});
+}
 
-
-
-
-// for confirm payment
-
-
-document.addEventListener('DOMContentLoaded', function () {
+function initializePaymentValidation() {
   const providerSelect = document.getElementById('provider-select');
   const instructionsDiv = document.getElementById('mobile-banking-instructions');
   const providerError = document.getElementById('provider-error');
   const confirmBtn = document.getElementById('confirm-btn');
+
+  // Check if elements exist before proceeding (performance optimization)
+  if (!providerSelect || !instructionsDiv || !confirmBtn) {
+    return; // Exit if payment form elements don't exist on this page
+  }
 
   const instructions = {
     bKash: `
@@ -194,10 +209,9 @@ document.addEventListener('DOMContentLoaded', function () {
       window.location.href = "./userdashboard.html";
     }
   });
-});
+}
 
-// Particle.js initialization
-document.addEventListener('DOMContentLoaded', function () {
+function initializeParticles() {
   if (document.getElementById('particles-js')) {
     particlesJS('particles-js', {
       "particles": {
@@ -305,7 +319,7 @@ document.addEventListener('DOMContentLoaded', function () {
       "retina_detect": true
     });
   }
-});
+}
 
 // Phase 2.5: User Profile Completion System
 // Check if user has completed CitizenProfile before allowing service access
