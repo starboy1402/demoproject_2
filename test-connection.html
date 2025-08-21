@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Frontend-Backend Connection Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .test-section {
+            background: white;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .success { color: #22c55e; }
+        .error { color: #ef4444; }
+        .warning { color: #f59e0b; }
+        button {
+            background-color: #3b82f6;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover {
+            background-color: #2563eb;
+        }
+        #results {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border-radius: 4px;
+            white-space: pre-wrap;
+        }
+    </style>
+</head>
+<body>
+    <h1>DigiGov Connection Test</h1>
+    
+    <div class="test-section">
+        <h2>Backend Connection Tests</h2>
+        <p>These tests verify that your frontend can communicate with the backend API.</p>
+        
+        <button onclick="testProfileCheck()">Test Profile Check API</button>
+        <button onclick="testRegister()">Test User Registration</button>
+        <button onclick="testLogin()">Test User Login</button>
+        <button onclick="runAllTests()">Run All Tests</button>
+        
+        <div id="results"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>Identified and Fixed Bugs</h2>
+        <div>
+            <h3 class="error">🐛 Bug #1: Security Vulnerability - Plain Text Passwords</h3>
+            <p><strong>Problem:</strong> Passwords were stored in plain text in the database.</p>
+            <p><strong>Fix:</strong> Implemented BCrypt password hashing in UserService.java</p>
+            <p><strong>Impact:</strong> Critical security improvement - passwords are now securely hashed.</p>
+        </div>
+        
+        <div>
+            <h3 class="warning">🐛 Bug #2: CORS Configuration Issue</h3>
+            <p><strong>Problem:</strong> CORS only allowed specific ports, blocking file:// protocol and other ports.</p>
+            <p><strong>Fix:</strong> Updated CorsConfig.java to use allowedOriginPatterns with wildcards.</p>
+            <p><strong>Impact:</strong> Frontend can now connect from any localhost port or file protocol.</p>
+        </div>
+        
+        <div>
+            <h3 class="warning">🐛 Bug #3: Performance Issue - Multiple DOMContentLoaded Listeners</h3>
+            <p><strong>Problem:</strong> 4 separate DOMContentLoaded event listeners causing inefficiency.</p>
+            <p><strong>Fix:</strong> Consolidated into single listener with modular functions and null checks.</p>
+            <p><strong>Impact:</strong> Improved page load performance and reduced memory usage.</p>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE = 'http://localhost:8080/api';
+        
+        function log(message, type = 'info') {
+            const results = document.getElementById('results');
+            const timestamp = new Date().toLocaleTimeString();
+            const className = type === 'error' ? 'error' : type === 'success' ? 'success' : 'warning';
+            results.innerHTML += `<span class="${className}">[${timestamp}] ${message}</span>\n`;
+            results.scrollTop = results.scrollHeight;
+        }
+        
+        async function testProfileCheck() {
+            log('Testing Profile Check API...');
+            try {
+                const response = await fetch(`${API_BASE}/citizen/profile/check/1`);
+                const data = await response.text();
+                
+                if (response.ok) {
+                    log('✅ Profile Check API: SUCCESS - Backend is responding', 'success');
+                    log(`Response: ${data}`);
+                } else {
+                    log(`⚠️ Profile Check API: Backend responding but with error (${response.status})`, 'warning');
+                    log(`Response: ${data}`);
+                }
+            } catch (error) {
+                log(`❌ Profile Check API: FAILED - ${error.message}`, 'error');
+            }
+        }
+        
+        async function testRegister() {
+            log('Testing User Registration API...');
+            try {
+                const formData = new FormData();
+                formData.append('email', 'test@example.com');
+                formData.append('password', 'testpass123');
+                formData.append('phone', '01234567890');
+                
+                const response = await fetch(`${API_BASE}/auth/register`, {
+                    method: 'POST',
+                    body: formData
+                });
+                const data = await response.text();
+                
+                if (response.ok) {
+                    log('✅ Registration API: SUCCESS', 'success');
+                    log(`Response: ${data}`);
+                } else {
+                    log(`⚠️ Registration API: Backend responding but with error (${response.status})`, 'warning');
+                    log(`Response: ${data}`);
+                }
+            } catch (error) {
+                log(`❌ Registration API: FAILED - ${error.message}`, 'error');
+            }
+        }
+        
+        async function testLogin() {
+            log('Testing User Login API...');
+            try {
+                const formData = new FormData();
+                formData.append('email', 'test@example.com');
+                formData.append('password', 'testpass123');
+                
+                const response = await fetch(`${API_BASE}/auth/login`, {
+                    method: 'POST',
+                    body: formData
+                });
+                const data = await response.text();
+                
+                if (response.ok) {
+                    log('✅ Login API: SUCCESS', 'success');
+                    log(`Response: ${data}`);
+                } else {
+                    log(`⚠️ Login API: Backend responding but with error (${response.status})`, 'warning');
+                    log(`Response: ${data}`);
+                }
+            } catch (error) {
+                log(`❌ Login API: FAILED - ${error.message}`, 'error');
+            }
+        }
+        
+        async function runAllTests() {
+            document.getElementById('results').innerHTML = '';
+            log('Starting comprehensive connection tests...');
+            log('='.repeat(50));
+            
+            await testProfileCheck();
+            await new Promise(resolve => setTimeout(resolve, 1000));
+            
+            await testRegister();
+            await new Promise(resolve => setTimeout(resolve, 1000));
+            
+            await testLogin();
+            
+            log('='.repeat(50));
+            log('Test suite completed. Check results above.');
+        }
+        
+        // Test on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            log('Page loaded. Ready to test connections.');
+            log('Click "Run All Tests" to verify frontend-backend connectivity.');
+        });
+    </script>
+</body>
+</html>

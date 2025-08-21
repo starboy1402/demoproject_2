@@ -3,6 +3,7 @@ package com.digigov.backend.service;
 import com.digigov.backend.entity.User;
 import com.digigov.backend.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,6 +17,8 @@ public class UserService {
 
     @Autowired
     private UserRepository userRepository;
+    
+    private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     // === USER REGISTRATION ===
 
@@ -36,7 +39,7 @@ public class UserService {
         // Create new user
         User user = new User();
         user.setEmail(email);
-        user.setPassword(password); // In real app, hash this password
+        user.setPassword(passwordEncoder.encode(password)); // Hash the password
         user.setPhone(phone);
         user.setCreatedAt(LocalDateTime.now());
 
@@ -53,8 +56,8 @@ public class UserService {
 
         if (userOpt.isPresent()) {
             User user = userOpt.get();
-            // In real app, compare hashed passwords
-            if (user.getPassword().equals(password)) {
+            // Compare hashed passwords
+            if (passwordEncoder.matches(password, user.getPassword())) {
                 return Optional.of(user);
             }
         }
@@ -133,7 +136,7 @@ public class UserService {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new IllegalArgumentException("User not found: " + userId));
 
-        user.setPassword(newPassword); // In real app, hash this password
+        user.setPassword(passwordEncoder.encode(newPassword)); // Hash the password
         return userRepository.save(user);
     }
 
