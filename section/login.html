@@ -1,102 +1,176 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
-      <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Google Fonts - Inter -->
-    <link
-      href="https://fonts.googleapis.
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts - Inter -->
+  <link href="https://fonts.googleapis.
 com/css2?family=Inter:wght@300;400;
-500;600;700&display=swap"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" href="../css/style.css" />
-     <style>
-     .input-style {
-      color: gray ;
+500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../css/style.css" />
+  <style>
+    .input-style {
+      color: gray;
       border: 1px solid #ccc;
       border-radius: 4px;
       padding: 8px;
       width: 100%;
       box-sizing: border-box;
     }
-    </style>
-  </head>
+  </style>
+</head>
 </head>
 
-  <body id="Background" class=" scroll-smooth relative ">
-     <div class="absolute inset-0 w-full h-full bg-cover bg-center transition-opacity duration-1000 opacity-100 z-0">
+<body id="Background" class=" scroll-smooth relative ">
+  <div class="absolute inset-0 w-full h-full bg-cover bg-center transition-opacity duration-1000 opacity-100 z-0">
 
-    <section id="login-register" class="relative min-h-screen flex items-center justify-center overflow-hidden py-16 px-4">
-      
-      <div id="bg-slideshow" class="absolute inset-0 w-full h-full bg-cover bg-center transition-opacity duration-1000 z-0"></div>
+    <section id="login-register"
+      class="relative min-h-screen flex items-center justify-center overflow-hidden py-16 px-4">
 
-   <div class="absolute inset-0 bg-black/40 z-10"></div>
-   <div class="relative z-20 mt-20 container mx-auto max-w-md text-center">
-   <h3 class="text-3xl font-bold mb-8 text-white">Login or Register</h3>
- <div class="bg-white p-8 rounded-lg shadow-xl text-gray-800">
-    <h4 class="text-2xl font-semibold mb-6 text-green-700">Login to Your Account</h4>
-    <form class="space-y-4">
- <div>
-   <label for="username" class="sr-only">Username or Email</label>
-   <input type="text" id="username" name="username" class="block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500 sm:text-sm required" placeholder="Username or Email">
-    </div>
-    <div>
-    <label for="password" class="sr-only">Password</label>
- <input type="password" id="password" name="password" class="block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500 sm:text-sm required" placeholder="Password">
- </div>
+      <div id="bg-slideshow"
+        class="absolute inset-0 w-full h-full bg-cover bg-center transition-opacity duration-1000 z-0"></div>
 
- <a id="login-link" class="w-full inline-flex justify-center py-3 px-6 border border-transparent shadow-sm text-base font-medium rounded-md text-white bg-green-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition duration-300" href="../index.html">
-         Login
-        </a>
-    </form>
- <div class="mt-6 text-sm">
- <p class="mb-2">Don't have an account? <a href="../section/signUp.html" class="text-green-600 hover:underline font-medium">Register Here</a></p>
-</div>
- </div> </div>
-</section>
-</div>
-<script src="../js/script.js"></script>
+      <div class="absolute inset-0 bg-black/40 z-10"></div>
+      <div class="relative z-20 mt-20 container mx-auto max-w-md text-center">
+        <h3 class="text-3xl font-bold mb-8 text-white">Login or Register</h3>
+        <div class="bg-white p-8 rounded-lg shadow-xl text-gray-800">
+          <h4 class="text-2xl font-semibold mb-6 text-green-700">Login to Your Account</h4>
+          <form class="space-y-4">
+            <div>
+              <label for="username" class="sr-only">Username or Email</label>
+              <input type="text" id="username" name="username"
+                class="block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500 sm:text-sm required"
+                placeholder="Username or Email">
+            </div>
+            <div>
+              <label for="password" class="sr-only">Password</label>
+              <input type="password" id="password" name="password"
+                class="block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500 sm:text-sm required"
+                placeholder="Password">
+            </div>
 
-  <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      // 1. Get references to the input fields and the login link
-      const usernameInput = document.getElementById('username');
-      const passwordInput = document.getElementById('password');
-      const loginLink = document.getElementById('login-link');
-      
-      // Store the original destination of the link
-      const originalHref = loginLink.href;
+            <a id="login-link"
+              class="w-full inline-flex justify-center py-3 px-6 border border-transparent shadow-sm text-base font-medium rounded-md text-white bg-green-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition duration-300"
+              href="../index.html">
+              Login
+            </a>
+          </form>
+          <div class="mt-6 text-sm">
+            <p class="mb-2">Don't have an account? <a href="../section/signUp.html"
+                class="text-green-600 hover:underline font-medium">Register Here</a></p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script src="../js/script.js"></script>
 
-      // 2. Create a function to check the inputs
-      function validateForm() {
-        // Check if both fields have text (after trimming whitespace)
-        const isFormValid = usernameInput.value.trim() !== '' && passwordInput.value.trim() !== '';
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      // 1. Get references to the input fields and the login link
+      const usernameInput = document.getElementById('username');
+      const passwordInput = document.getElementById('password');
+      const loginLink = document.getElementById('login-link');
 
-        if (isFormValid) {
-          // If valid, ENABLE the link
-          loginLink.classList.remove('opacity-50', 'pointer-events-none');
-          loginLink.href = originalHref; // Restore the clickable link
-        } else {
-          // If not valid, DISABLE the link
-          loginLink.classList.add('opacity-50', 'pointer-events-none');
-          loginLink.removeAttribute('href'); // Remove the link to prevent clicking
-        }
-      }
+      // Store the original destination of the link
+      const originalHref = loginLink.href;
 
-      // 3. Add event listeners to check for input in real-time
-      usernameInput.addEventListener('input', validateForm);
-      passwordInput.addEventListener('input', validateForm);
+      // 2. Create a function to check the inputs
+      function validateForm() {
+        // Check if both fields have text (after trimming whitespace)
+        const isFormValid = usernameInput.value.trim() !== '' && passwordInput.value.trim() !== '';
 
-      // 4. Run the validation once on page load to disable the button initially
-      validateForm();
-    });
-  </script>
+        if (isFormValid) {
+          // If valid, ENABLE the link
+          loginLink.classList.remove('opacity-50', 'pointer-events-none');
+          loginLink.href = '#'; // Change to # to prevent direct navigation
+        } else {
+          // If not valid, DISABLE the link
+          loginLink.classList.add('opacity-50', 'pointer-events-none');
+          loginLink.removeAttribute('href'); // Remove the link to prevent clicking
+        }
+      }
 
-</body>  
+      // 3. Add event listeners to check for input in real-time
+      usernameInput.addEventListener('input', validateForm);
+      passwordInput.addEventListener('input', validateForm);
+
+      // 4. Add click handler for actual login
+      loginLink.addEventListener('click', function (e) {
+        e.preventDefault();
+
+        const username = usernameInput.value.trim();
+        const password = passwordInput.value.trim();
+
+        if (username && password) {
+          performLogin(username, password);
+        }
+      });
+
+      // 5. Run the validation once on page load to disable the button initially
+      validateForm();
+    });
+
+    // Phase 2.5: Session Management - Login Function
+    function performLogin(username, password) {
+      // Show loading state
+      const loginLink = document.getElementById('login-link');
+      const originalText = loginLink.textContent;
+      loginLink.textContent = 'Logging in...';
+      loginLink.classList.add('opacity-50', 'pointer-events-none');
+
+      // Real backend authentication
+      fetch('http://localhost:8080/api/auth/login?email=' + encodeURIComponent(username) + '&password=' + encodeURIComponent(password), {
+        method: 'POST'
+      })
+        .then(async response => {
+          const result = await response.json();
+          if (response.ok && result.userId) {
+            // Store user session in localStorage
+            localStorage.setItem('currentUser', JSON.stringify(result));
+            localStorage.setItem('isLoggedIn', 'true');
+            alert('লগইন সফল হয়েছে! Login successful!');
+            window.location.href = '../index.html';
+          } else {
+            loginLink.textContent = originalText;
+            loginLink.classList.remove('opacity-50', 'pointer-events-none');
+            alert(result.message || 'Login failed!');
+          }
+        })
+        .catch(() => {
+          loginLink.textContent = originalText;
+          loginLink.classList.remove('opacity-50', 'pointer-events-none');
+          alert('Server error. Please try again.');
+        });
+    }
+
+    // Function to get current logged-in user
+    function getCurrentUser() {
+      const userJson = localStorage.getItem('currentUser');
+      if (userJson) {
+        const user = JSON.parse(userJson);
+        // Check if login is still valid (not expired)
+        if (user.isLoggedIn) {
+          return user;
+        }
+      }
+      return null;
+    }
+
+    // Function to logout user
+    function logoutUser() {
+      localStorage.removeItem('currentUser');
+      localStorage.removeItem('isLoggedIn');
+      alert('আপনি লগআউট হয়েছেন! You have been logged out!');
+      window.location.href = 'login.html';
+    }
+  </script>
+</body>
 
 
 </body>
+
 </html>

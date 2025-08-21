@@ -16,28 +16,149 @@ com/css2?family=Inter:wght@300;400;
 </head>
 
 <body id="Background">
+    <!-- Navbar with service shortcuts and logout button -->
+    <nav class="bg-green-900 text-white py-4 px-6 flex justify-between items-center mb-8 rounded-b-lg">
+        <div class="flex items-center gap-8">
+            <span class="font-bold text-xl">DigiGov Dashboard</span>
+            <div class="hidden md:flex gap-4 items-center">
+                <a href="../index.html" class="hover:underline">Home</a>
+                <div class="relative group">
+                    <button
+                        class="hover:underline px-3 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-green-400 flex items-center gap-2">
+                        <span>Services</span>
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                        </svg>
+                    </button>
+                    <div
+                        class="absolute left-0 mt-2 w-56 bg-white text-green-900 rounded-lg shadow-lg opacity-0 group-hover:opacity-100 group-focus:opacity-100 transition-opacity duration-200 z-10">
+                        <a href="marriagecirtificate.html" class="block px-4 py-2 hover:bg-green-100">Marriage
+                            Certificate</a>
+                        <a href="characteristics.html" class="block px-4 py-2 hover:bg-green-100">Character
+                            Certificate</a>
+                        <a href="deathcirtificate.html" class="block px-4 py-2 hover:bg-green-100">Death Certificate</a>
+                        <a href="citizen.html" class="block px-4 py-2 hover:bg-green-100">Citizen Certificate</a>
+                        <a href="disabilityCirtificate.html" class="block px-4 py-2 hover:bg-green-100">Disability
+                            Certificate</a>
+                        <a href="newholdingcirtificate.html" class="block px-4 py-2 hover:bg-green-100">New Holding
+                            Certificate</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <button id="logout-btn"
+            class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-md font-semibold">Logout</button>
+    </nav>
     <section id="user-dashboard" class="container mx-auto py-16 px-4 rounded-lg mb-8">
+        <!-- Citizen Profile Form (hidden if already completed) -->
+        <div id="profile-section" class="max-w-2xl mx-auto mb-12 bg-white p-8 rounded-lg shadow-xl"
+            style="display:none;">
+            <h4 class="text-2xl font-semibold mb-6 text-green-700">Complete Your Citizen Profile</h4>
+            <form id="citizen-profile-form" class="space-y-4">
+                <div>
+                    <label for="profile-name-input" class="block text-sm font-medium text-gray-700">Full Name</label>
+                    <input type="text" id="profile-name-input" name="name"
+                        class="block w-full px-4 py-2 border border-gray-300 rounded-md" required>
+                </div>
+                <div>
+                    <label for="profile-nid-input" class="block text-sm font-medium text-gray-700">NID Number</label>
+                    <input type="text" id="profile-nid-input" name="nidNumber"
+                        class="block w-full px-4 py-2 border border-gray-300 rounded-md" required pattern="\d{13}"
+                        maxlength="13">
+                </div>
+                <div>
+                    <label for="profile-dob-input" class="block text-sm font-medium text-gray-700">Date of Birth</label>
+                    <input type="date" id="profile-dob-input" name="dateOfBirth"
+                        class="block w-full px-4 py-2 border border-gray-300 rounded-md" required>
+                </div>
+                <div>
+                    <label for="profile-father-input" class="block text-sm font-medium text-gray-700">Father's
+                        Name</label>
+                    <input type="text" id="profile-father-input" name="fathersName"
+                        class="block w-full px-4 py-2 border border-gray-300 rounded-md" required>
+                </div>
+                <div>
+                    <label for="profile-mother-input" class="block text-sm font-medium text-gray-700">Mother's
+                        Name</label>
+                    <input type="text" id="profile-mother-input" name="mothersName"
+                        class="block w-full px-4 py-2 border border-gray-300 rounded-md" required>
+                </div>
+                <div>
+                    <label for="profile-gender-input" class="block text-sm font-medium text-gray-700">Gender</label>
+                    <select id="profile-gender-input" name="gender"
+                        class="block w-full px-4 py-2 border border-gray-300 rounded-md" required>
+                        <option value="">Select Gender</option>
+                        <option value="MALE">Male</option>
+                        <option value="FEMALE">Female</option>
+                        <option value="OTHER">Other</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="profile-religion-input" class="block text-sm font-medium text-gray-700">Religion</label>
+                    <select id="profile-religion-input" name="religion"
+                        class="block w-full px-4 py-2 border border-gray-300 rounded-md" required>
+                        <option value="">Select Religion</option>
+                        <option value="ISLAM">Islam</option>
+                        <option value="HINDUISM">Hinduism</option>
+                        <option value="BUDDHISM">Buddhism</option>
+                        <option value="CHRISTIANITY">Christianity</option>
+                        <option value="OTHER">Other</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="profile-profession-input"
+                        class="block text-sm font-medium text-gray-700">Profession</label>
+                    <input type="text" id="profile-profession-input" name="profession"
+                        class="block w-full px-4 py-2 border border-gray-300 rounded-md" required>
+                </div>
+                <div>
+                    <label for="profile-current-address-input" class="block text-sm font-medium text-gray-700">Current
+                        Address</label>
+                    <input type="text" id="profile-current-address-input" name="currentAddress"
+                        class="block w-full px-4 py-2 border border-gray-300 rounded-md" required>
+                </div>
+                <div>
+                    <label for="profile-permanent-address-input"
+                        class="block text-sm font-medium text-gray-700">Permanent Address</label>
+                    <input type="text" id="profile-permanent-address-input" name="permanentAddress"
+                        class="block w-full px-4 py-2 border border-gray-300 rounded-md" required>
+                </div>
+                <p id="profile-error" class="text-red-500 text-sm mt-1 h-4"></p>
+                <button type="submit"
+                    class="mt-4 bg-green-600 text-white px-6 py-2 rounded-md text-lg hover:bg-green-700 transition duration-300">Save
+                    Profile</button>
+                <button type="button" id="cancel-edit-citizen"
+                    class="ml-2 bg-gray-300 text-gray-800 px-6 py-2 rounded-md text-lg hover:bg-gray-400 transition duration-300">Cancel</button>
+            </form>
+        </div>
         <h3 class="text-3xl font-bold text-center mb-12 text-white">Your Dashboard</h3>
-        <p class="text-center text-lg text-white mb-10 max-w-3xl mx-auto">
+        <p class="text-center text-lg text-white mb-10 max-w-3xl mx-auto" id="welcome-text">
             Welcome, User!
-            <!-- Here you can manage your profile, track applications, and view your payment history. -->
         </p>
-
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
             <!-- Profile Card -->
-            <div class="lg:col-span-1 bg-green-50 p-6 rounded-lg shadow-md">
+            <div class="lg:col-span-1 bg-green-50 p-6 rounded-lg shadow-md" id="profile-card">
                 <h4 class="text-xl font-semibold text-green-800 mb-4 border-b pb-2">Personal Profile</h4>
-                <p class="text-gray-700 mb-2"><span class="font-medium">Name: </span>Majedul Khan Shifat</p>
-                <p class="text-gray-700 mb-2"><span class="font-medium">Email: </span>majedulkhanshifat@gmail.com</p>
-                <p class="text-gray-700 mb-2"><span class="font-medium">Phone: </span> 01572612446</p>
-                <p class="text-gray-700 mb-2"><span class="font-medium">Member Since: </span> August 10, 2023</p>
-                <!-- <button class="mt-4 bg-blue-600 text-white px-4 py-2 rounded-md text-sm hover:bg-blue-700 transition duration-300">Edit Profile</button>
-                 -->
+                <div id="profile-status" class="mb-2"></div>
+                <p class="text-gray-700 mb-2"><span class="font-medium">Name: </span><span
+                        id="profile-name">Loading...</span></p>
+                <p class="text-gray-700 mb-2"><span class="font-medium">Email: </span><span
+                        id="profile-email">Loading...</span></p>
+                <p class="text-gray-700 mb-2"><span class="font-medium">Phone: </span><span
+                        id="profile-phone">Loading...</span></p>
+                <p class="text-gray-700 mb-2"><span class="font-medium">Member Since: </span><span
+                        id="profile-member">Loading...</span></p>
+                <button id="edit-citizen-profile-btn"
+                    class="mt-4 bg-green-700 text-white px-4 py-2 rounded-md text-sm hover:bg-green-800 transition duration-300">Edit
+                    Citizen Profile</button>
+                <button id="edit-profile-btn"
+                    class="mt-4 bg-blue-600 text-white px-4 py-2 rounded-md text-sm hover:bg-blue-700 transition duration-300">Edit
+                    Profile</button>
             </div>
-
             <!-- Submitted Applications -->
             <div class="lg:col-span-2 bg-green-50 p-6 rounded-lg shadow-md">
-                <h4 class="text-xl font-semibold text-gray-900 mb-4 border-b pb-2 text-green-800">Submitted Applications</h4>
+                <h4 class="text-xl font-semibold text-gray-900 mb-4 border-b pb-2 text-green-800">Submitted Applications
+                </h4>
                 <div class="overflow-x-auto">
                     <table class="min-w-full divide-y divide-gray-200">
                         <thead class="bg-green-50">
@@ -54,65 +175,17 @@ com/css2?family=Inter:wght@300;400;
                                 <th scope="col"
                                     class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                     Date Submitted</th>
-                                <!-- <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th> -->
                             </tr>
                         </thead>
-                        <tbody class="bg-green-50 divide-y divide-gray-200">
-                            <tr>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">APP-001</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">চারিত্রিক আবেদন</td>
-                                <td class="px-6 py-4 whitespace-nowrap">
-                                    <span
-                                        class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">
-                                        Pending Review
-                                    </span>
-                                </td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">2024-08-12</td>
-                                <!-- <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                    <a href="javascript:void(0);" class="text-blue-600 hover:text-blue-900 mr-2">View Details</a>
-                                    <a href="javascript:void(0);" class="text-blue-600 hover:text-blue-900 mr-2">Track Progress</a>
-                                    <a href="javascript:void(0);" class="text-blue-600 hover:text-blue-900">Submit Docs</a>
-                                </td> -->
-                            </tr>
-                            <tr>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">APP-002</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">নাগরিক আবেদন</td>
-                                <td class="px-6 py-4 whitespace-nowrap">
-                                    <span
-                                        class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">
-                                        Payment Pending
-                                    </span>
-                                </td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">2024-07-12</td>
-                                <!-- <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                    <a href="javascript:void(0);" class="text-blue-600 hover:text-blue-900 mr-2">View Details</a>
-                                    <a href="javascript:void(0);" class="text-blue-600 hover:text-blue-900 mr-2">Track Progress</a>
-                                    <a href="javascript:void(0);" onclick="showSection('payment-page')" class="text-green-600 hover:text-green-900">Make Payment</a>
-                                </td> -->
-
-                            </tr>
-                            <tr>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">APP-003</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">নতুন হোল্ডিং আবেদন</td>
-                                <td class="px-6 py-4 whitespace-nowrap">
-                                    <span
-                                        class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-                                        Approved
-                                    </span>
-                                </td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">2024-08-13</td>
-                                <!-- <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                    <a href="javascript:void(0);" class="text-blue-600 hover:text-blue-900 mr-2">View Details</a>
-                                    <a href="javascript:void(0);" class="text-blue-600 hover:text-blue-900 mr-2">Track Progress</a>
-                                    <a href="javascript:void(0);" class="text-blue-600 hover:text-blue-900">Download Doc</a>
-                                </td>
-                                 -->
+                        <tbody class="bg-green-50 divide-y divide-gray-200" id="applications-table">
+                            <tr id="applications-loading">
+                                <td colspan="4" class="px-6 py-4 text-center text-gray-500 animate-pulse">Loading
+                                    applications...</td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
             </div>
-
             <!-- Payment History -->
             <div class="lg:col-span-3 bg-green-50 p-6 rounded-lg shadow-md mt-8">
                 <h4 class="text-xl font-semibold text-gray-900 mb-4 border-b pb-2 text-green-800">Payment History</h4>
@@ -137,58 +210,268 @@ com/css2?family=Inter:wght@300;400;
                                     Status</th>
                             </tr>
                         </thead>
-                        <tbody class="bg-green-50 divide-y divide-gray-200">
-                            <tr>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">TRN-001</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">APP-003</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">৳50.00</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">2025-06-19</td>
-                                <td class="px-6 py-4 whitespace-nowrap">
-                                    <span
-                                        class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-                                        Completed
-                                    </span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">TRN-002</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">APP-002</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">৳25.00</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">2025-07-10</td>
-                                <td class="px-6 py-4 whitespace-nowrap">
-                                    <span
-                                        class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">
-                                        Failed
-                                    </span>
-                                </td>
+                        <tbody class="bg-green-50 divide-y divide-gray-200" id="payments-table">
+                            <tr id="payments-loading">
+                                <td colspan="5" class="px-6 py-4 text-center text-gray-500 animate-pulse">Loading
+                                    payments...</td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
             </div>
-
-            <!-- Notifications/Messages
-            <div class="lg:col-span-3 bg-white p-6 rounded-lg shadow-md mt-8">
-                <h4 class="text-xl font-semibold text-gray-900 mb-4 border-b pb-2">Notifications & Messages</h4>
-                <ul class="divide-y divide-gray-200">
-                    <li class="py-3 flex items-center">
-                        <svg class="w-5 h-5 text-blue-500 mr-3 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9.293 11.293a1 1 0 001.414 0L12 9.414l1.293 1.293a1 1 0 001.414-1.414L13.414 8l1.293-1.293a1 1 0 00-1.414-1.414L12 6.586l-1.293-1.293a1 1 0 00-1.414 1.414L10.586 8l-1.293 1.293a1 1 0 000 1.414z" clip-rule="evenodd"></path></svg>
-                        <p class="text-gray-700">Your ID & Passport Application (APP-001) is now <span class="font-semibold text-yellow-800">Under Review</span>.</p>
-                    </li>
-                    <li class="py-3 flex items-center">
-                        <svg class="w-5 h-5 text-red-500 mr-3 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"></path></svg>
-                        <p class="text-gray-700">Payment for Business Registration (APP-002) has <span class="font-semibold text-red-800">Failed</span>. Please try again.</p>
-                    </li>
-                    <li class="py-3 flex items-center">
-                        <svg class="w-5 h-5 text-green-500 mr-3 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
-                        <p class="text-gray-700">Your Birth Certificate (APP-003) is <span class="font-semibold text-green-800">Approved</span> and ready for download.</p>
-                    </li>
-                </ul>
-            </div> -->
-
-
         </div>
     </section>
+    <script>
+        // Security: Block access if not logged in
+        if (!localStorage.getItem('isLoggedIn') || localStorage.getItem('isLoggedIn') !== 'true') {
+            window.location.href = 'login.html';
+        }
+
+        // Logout button logic
+        document.addEventListener('DOMContentLoaded', function () {
+            const logoutBtn = document.getElementById('logout-btn');
+            if (logoutBtn) {
+                logoutBtn.addEventListener('click', function () {
+                    localStorage.removeItem('currentUser');
+                    localStorage.removeItem('isLoggedIn');
+                    window.location.href = 'login.html';
+                });
+            }
+
+            // Edit Citizen Profile logic
+            const editCitizenBtn = document.getElementById('edit-citizen-profile-btn');
+            const profileSection = document.getElementById('profile-section');
+            const citizenForm = document.getElementById('citizen-profile-form');
+            const cancelEditBtn = document.getElementById('cancel-edit-citizen');
+            const user = JSON.parse(localStorage.getItem('currentUser') || '{}');
+
+            if (editCitizenBtn) {
+                editCitizenBtn.addEventListener('click', function () {
+                    // Fetch citizen profile from backend and pre-fill form
+                    fetch(`http://localhost:8080/api/citizen/profile/${user.userId}`)
+                        .then(res => res.json())
+                        .then(data => {
+                            profileSection.style.display = 'block';
+                            citizenForm['name'].value = data.name || '';
+                            citizenForm['nidNumber'].value = data.nidNumber || '';
+                            citizenForm['dateOfBirth'].value = data.dateOfBirth || '';
+                            citizenForm['fathersName'].value = data.fathersName || '';
+                            citizenForm['mothersName'].value = data.mothersName || '';
+                            citizenForm['gender'].value = data.gender || '';
+                            citizenForm['religion'].value = data.religion || '';
+                            citizenForm['profession'].value = data.profession || '';
+                            citizenForm['currentAddress'].value = data.currentAddress || '';
+                            citizenForm['permanentAddress'].value = data.permanentAddress || '';
+                        })
+                        .catch(() => {
+                            profileSection.style.display = 'block';
+                        });
+                });
+            }
+            if (cancelEditBtn) {
+                cancelEditBtn.addEventListener('click', function () {
+                    profileSection.style.display = 'none';
+                });
+            }
+
+            citizenForm.addEventListener('submit', function (e) {
+                e.preventDefault();
+                const formData = {
+                    userId: user.userId,
+                    name: citizenForm['name'].value,
+                    nidNumber: citizenForm['nidNumber'].value,
+                    dateOfBirth: citizenForm['dateOfBirth'].value,
+                    fathersName: citizenForm['fathersName'].value,
+                    mothersName: citizenForm['mothersName'].value,
+                    gender: citizenForm['gender'].value,
+                    religion: citizenForm['religion'].value,
+                    profession: citizenForm['profession'].value,
+                    currentAddress: citizenForm['currentAddress'].value,
+                    permanentAddress: citizenForm['permanentAddress'].value
+                };
+                fetch('http://localhost:8080/api/citizen/profile', {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(formData)
+                })
+                    .then(res => {
+                        if (res.ok) {
+                            alert('Citizen profile updated successfully!');
+                            profileSection.style.display = 'none';
+                        } else {
+                            alert('Error updating profile.');
+                        }
+                    })
+                    .catch(() => {
+                        alert('Error updating profile.');
+                    });
+            });
+        });
+        // Citizen Profile Form Logic
+        function showProfileForm() {
+            document.getElementById('profile-section').style.display = '';
+        }
+        function hideProfileForm() {
+            document.getElementById('profile-section').style.display = 'none';
+        }
+        function fillProfileForm(profile) {
+            document.getElementById('profile-name-input').value = profile.name || '';
+            document.getElementById('profile-nid-input').value = profile.nidNumber || '';
+            document.getElementById('profile-dob-input').value = profile.dateOfBirth || '';
+            document.getElementById('profile-father-input').value = profile.fathersName || '';
+            document.getElementById('profile-mother-input').value = profile.mothersName || '';
+            document.getElementById('profile-gender-input').value = profile.gender || '';
+            document.getElementById('profile-religion-input').value = profile.religion || '';
+            document.getElementById('profile-profession-input').value = profile.profession || '';
+            document.getElementById('profile-current-address-input').value = profile.currentAddress || '';
+            document.getElementById('profile-permanent-address-input').value = profile.permanentAddress || '';
+        }
+        document.addEventListener('DOMContentLoaded', function () {
+            // ...existing code...
+            // Check if user has completed profile
+            const user = JSON.parse(localStorage.getItem('currentUser') || '{}');
+            if (!user || !user.userId) {
+                window.location.href = 'login.html';
+                return;
+            }
+            // Show loading spinner for profile status
+            document.getElementById('profile-status').innerHTML = '<span class="inline-block px-3 py-1 bg-yellow-200 text-yellow-800 rounded-full text-xs">Checking profile status...</span>';
+            fetch(`http://localhost:8080/api/citizen/profile/check/${user.userId}`)
+                .then(res => res.json())
+                .then(data => {
+                    if (!data.hasProfile) {
+                        showProfileForm();
+                        document.getElementById('profile-status').innerHTML = '<span class="inline-block px-3 py-1 bg-red-200 text-red-800 rounded-full text-xs">Profile Incomplete</span>';
+                    } else {
+                        hideProfileForm();
+                        document.getElementById('profile-status').innerHTML = '<span class="inline-block px-3 py-1 bg-green-200 text-green-800 rounded-full text-xs">Profile Complete</span>';
+                    }
+                })
+                .catch(() => {
+                    showProfileForm();
+                    document.getElementById('profile-status').innerHTML = '<span class="inline-block px-3 py-1 bg-red-200 text-red-800 rounded-full text-xs">Error checking profile</span>';
+                });
+
+            // Profile form submit
+            document.getElementById('citizen-profile-form').addEventListener('submit', function (e) {
+                e.preventDefault();
+                const errorMsg = document.getElementById('profile-error');
+                errorMsg.textContent = '';
+                // Gather form data
+                const profile = {
+                    name: document.getElementById('profile-name-input').value.trim(),
+                    nidNumber: document.getElementById('profile-nid-input').value.trim(),
+                    dateOfBirth: document.getElementById('profile-dob-input').value,
+                    fathersName: document.getElementById('profile-father-input').value.trim(),
+                    mothersName: document.getElementById('profile-mother-input').value.trim(),
+                    gender: document.getElementById('profile-gender-input').value,
+                    religion: document.getElementById('profile-religion-input').value,
+                    profession: document.getElementById('profile-profession-input').value.trim(),
+                    currentAddress: document.getElementById('profile-current-address-input').value.trim(),
+                    permanentAddress: document.getElementById('profile-permanent-address-input').value.trim(),
+                    userId: user.userId
+                };
+                // Basic validation
+                if (!profile.name || !profile.nidNumber || !profile.dateOfBirth || !profile.fathersName || !profile.mothersName || !profile.gender || !profile.religion || !profile.profession || !profile.currentAddress || !profile.permanentAddress) {
+                    errorMsg.textContent = 'Please fill all fields.';
+                    return;
+                }
+                // Save profile to backend
+                fetch('http://localhost:8080/api/citizen/profile', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(profile)
+                })
+                    .then(res => res.json())
+                    .then(result => {
+                        if (result.success) {
+                            alert('Profile saved successfully! You can now access all services.');
+                            hideProfileForm();
+                            window.location.href = '../index.html';
+                        } else {
+                            errorMsg.textContent = result.message || 'Failed to save profile.';
+                        }
+                    })
+                    .catch(() => {
+                        errorMsg.textContent = 'Server error. Please try again.';
+                    });
+            });
+        });
+        // Load user dashboard data dynamically
+        document.addEventListener('DOMContentLoaded', function () {
+            // Get current user from session
+            const user = JSON.parse(localStorage.getItem('currentUser') || '{}');
+            if (!user || !user.userId) {
+                window.location.href = 'login.html';
+                return;
+            }
+            // Welcome text
+            document.getElementById('welcome-text').textContent = `Welcome, ${user.username || user.name || 'User'}!`;
+            // Profile info
+            document.getElementById('profile-name').textContent = user.name || user.username || 'N/A';
+            document.getElementById('profile-email').textContent = user.email || 'N/A';
+            document.getElementById('profile-phone').textContent = user.phone || 'N/A';
+            document.getElementById('profile-member').textContent = user.memberSince || (user.loginTime ? new Date(user.loginTime).toLocaleDateString() : 'N/A');
+
+            // Load applications from backend
+            // Show loading row for applications
+            const appsTable = document.getElementById('applications-table');
+            appsTable.innerHTML = document.getElementById('applications-loading').outerHTML;
+            fetch(`http://localhost:8080/api/application/user/${user.userId}`)
+                .then(res => res.json())
+                .then(apps => {
+                    if (Array.isArray(apps) && apps.length > 0) {
+                        appsTable.innerHTML = apps.map(app => `
+                            <tr>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">${app.id || app.applicationId}</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">${app.serviceName}</td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${app.status === 'Approved' ? 'bg-green-100 text-green-800' : app.status === 'Pending' ? 'bg-yellow-100 text-yellow-800' : 'bg-red-100 text-red-800'}">${app.status}</span>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">${app.dateSubmitted ? new Date(app.dateSubmitted).toLocaleDateString() : ''}</td>
+                            </tr>
+                        `).join('');
+                    } else {
+                        appsTable.innerHTML = '<tr><td colspan="4" class="px-6 py-4 text-center text-gray-500">No applications found.</td></tr>';
+                    }
+                })
+                .catch(() => {
+                    appsTable.innerHTML = '<tr><td colspan="4" class="px-6 py-4 text-center text-red-500">Error loading applications.</td></tr>';
+                });
+
+            // Load payments from backend
+            // Show loading row for payments
+            const paymentsTable = document.getElementById('payments-table');
+            paymentsTable.innerHTML = document.getElementById('payments-loading').outerHTML;
+            fetch(`http://localhost:8080/api/payment/user/${user.userId}`)
+                .then(res => res.json())
+                .then(payments => {
+                    if (Array.isArray(payments) && payments.length > 0) {
+                        paymentsTable.innerHTML = payments.map(pay => `
+                            <tr>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">${pay.transactionId}</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">${pay.applicationId}</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">৳${pay.amount}</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">${pay.date ? new Date(pay.date).toLocaleDateString() : ''}</td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${pay.status === 'Completed' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}">${pay.status}</span>
+                                </td>
+                            </tr>
+                        `).join('');
+                    } else {
+                        paymentsTable.innerHTML = '<tr><td colspan="5" class="px-6 py-4 text-center text-gray-500">No payments found.</td></tr>';
+                    }
+                })
+                .catch(() => {
+                    paymentsTable.innerHTML = '<tr><td colspan="5" class="px-6 py-4 text-center text-red-500">Error loading payments.</td></tr>';
+                });
+
+            // Edit profile button (future)
+            document.getElementById('edit-profile-btn').addEventListener('click', function () {
+                alert('Profile editing coming soon!');
+            });
+        });
+    </script>
 </body>
 
 </html>

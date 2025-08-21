@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,33 +12,44 @@
     body {
       font-family: 'Inter', sans-serif;
     }
+
     /* A simple fade-in animation for the form */
     @keyframes fadeIn {
-        from { opacity: 0; transform: translateY(-20px); }
-        to { opacity: 1; transform: translateY(0); }
-    }
-    .form-container {
-        animation: fadeIn 0.5s ease-out forwards;
-    }
-    #Background{
-      background-color:  #243c36;
-    }
-     
-      .input-style{
-        color: gray
+      from {
+        opacity: 0;
+        transform: translateY(-20px);
       }
-  
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .form-container {
+      animation: fadeIn 0.5s ease-out forwards;
+    }
+
+    #Background {
+      background-color: #243c36;
+    }
+
+    .input-style {
+      color: gray
+    }
   </style>
   <link rel="stylesheet" href="../css/style.css">
 </head>
+
 <body class="scroll-smooth" id="Background">
 
   <!-- Login/Register Section with Background Slideshow -->
-  <section id="login-register" class="relative min-h-screen flex items-center justify-center overflow-hidden py-16 px-4">
-    
+  <section id="login-register"
+    class="relative min-h-screen flex items-center justify-center overflow-hidden py-16 px-4">
+
     <!-- You can add a dynamic background here if you like -->
     <!-- For simplicity, a static background color is used -->
-     <!-- previous background color=bg-gradient-to-br from-blue-900 to-purple-900 -->
+    <!-- previous background color=bg-gradient-to-br from-blue-900 to-purple-900 -->
     <div class="absolute inset-0  z-0"></div>
 
     <!-- Optional dark overlay for better contrast -->
@@ -52,38 +64,106 @@
           <!-- Name Field -->
           <div>
             <label for="name" class="sr-only">Full Name</label>
-            <input type="text" id="name" name="name" class="block w-full px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm" placeholder="Full Name" required>
+            <input type="text" id="name" name="name"
+              class="block w-full px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+              placeholder="Full Name" required>
           </div>
           <!-- Email Field -->
           <div>
             <label for="email" class="sr-only">Email Address</label>
-            <input type="email" id="email" name="email" class="block w-full px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm" placeholder="Email Address" required>
+            <input type="email" id="email" name="email"
+              class="block w-full px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+              placeholder="Email Address" required>
           </div>
           <!-- Phone Number Field -->
           <div>
             <label for="phone" class="sr-only">Phone Number</label>
-            <input type="tel" id="phone" name="phone" class="block w-full px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm" placeholder="Phone Number" required>
+            <input type="tel" id="phone" name="phone"
+              class="block w-full px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+              placeholder="Phone Number" required>
           </div>
           <!-- Password Field -->
           <div>
             <label for="password" class="sr-only">Password</label>
-            <input type="password" id="password" name="password" class="block w-full px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm" placeholder="Password" required>
+            <input type="password" id="password" name="password"
+              class="block w-full px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+              placeholder="Password" required>
           </div>
           <!-- Confirm Password Field -->
 
-  <div>
-    <label for="confirm-password" class="sr-only">Confirm Password</label>
-    <input type="password" id="confirm-password" name="confirm-password" class="block w-full px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm" placeholder="Confirm Password" required>
-</div>
+          <div>
+            <label for="confirm-password" class="sr-only">Confirm Password</label>
+            <input type="password" id="confirm-password" name="confirm-password"
+              class="block w-full px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+              placeholder="Confirm Password" required>
+          </div>
 
-<p id="password-error" class="text-red-500 text-sm mt-1 h-4"></p>
+          <p id="password-error" class="text-red-500 text-sm mt-1 h-4"></p>
 
-<a id="signup-link" href="../section/login.html" class="w-full inline-flex justify-center py-3 px-6 border border-transparent shadow-sm text-base font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition duration-300">
-    Sign Up
-</a>
-
-
+          <a id="signup-link" href="../section/login.html"
+            class="w-full inline-flex justify-center py-3 px-6 border border-transparent shadow-sm text-base font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition duration-300">
+            Sign Up
+          </a>
         </form>
+        <script>
+          // Registration form submission logic
+          document.addEventListener('DOMContentLoaded', function () {
+            const form = document.querySelector('form');
+            const signupLink = document.getElementById('signup-link');
+            const passwordError = document.getElementById('password-error');
+
+            form.addEventListener('submit', async function (e) {
+              e.preventDefault();
+              const name = document.getElementById('name').value.trim();
+              const email = document.getElementById('email').value.trim();
+              const phone = document.getElementById('phone').value.trim();
+              const password = document.getElementById('password').value;
+              const confirmPassword = document.getElementById('confirm-password').value;
+
+              // Frontend validation for password and phone
+              if (password.length < 8) {
+                passwordError.textContent = "Password must be at least 8 characters long!";
+                return;
+              }
+              if (!/^\d{11}$/.test(phone)) {
+                passwordError.textContent = "Phone number must be exactly 11 digits!";
+                return;
+              }
+              if (password !== confirmPassword) {
+                passwordError.textContent = "Passwords do not match!";
+                return;
+              } else {
+                passwordError.textContent = "";
+              }
+
+              if (!signupLink) {
+                alert('Signup button not found.');
+                return;
+              }
+              signupLink.textContent = 'Signing up...';
+              signupLink.classList.add('opacity-50', 'pointer-events-none');
+
+              try {
+                const url = `http://localhost:8080/api/auth/register?email=${encodeURIComponent(email)}&password=${encodeURIComponent(password)}&phone=${encodeURIComponent(phone)}`;
+                const response = await fetch(url, {
+                  method: 'POST'
+                });
+                const result = await response.json();
+                if (response.ok) {
+                  window.location.href = '../section/login.html';
+                } else {
+                  passwordError.textContent = result.message || "Registration failed!";
+                  signupLink.textContent = 'Sign Up';
+                  signupLink.classList.remove('opacity-50', 'pointer-events-none');
+                }
+              } catch (err) {
+                passwordError.textContent = "Server error. Please try again.";
+                signupLink.textContent = 'Sign Up';
+                signupLink.classList.remove('opacity-50', 'pointer-events-none');
+              }
+            });
+          });
+        </script>
       </div>
     </div>
   </section>
@@ -92,4 +172,5 @@
 
   <script src="../js/script.js"></script>
 </body>
+
 </html>

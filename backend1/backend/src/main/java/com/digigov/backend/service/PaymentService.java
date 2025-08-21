@@ -37,7 +37,7 @@ public class PaymentService {
         PaymentMethod method = PaymentMethod.valueOf(paymentMethod.toUpperCase());
         payment.setPaymentMethod(method);
 
-        payment.setStatus(PaymentStatus.COMPLETED); // Simplified - auto complete
+        payment.setStatus(PaymentStatus.PENDING); // Set to PENDING on creation
         payment.setPaymentDate(LocalDateTime.now());
 
         return paymentRepository.save(payment);

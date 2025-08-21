@@ -26,6 +26,9 @@ public class ApplicationService {
     @Autowired
     private ServiceRepository serviceRepository;
 
+    @Autowired
+    private PaymentRepository paymentRepository;
+
     // === APPLICATION SUBMISSION ===
 
     /**
@@ -107,6 +110,19 @@ public class ApplicationService {
 
         application.setStatus(ApplicationStatus.APPROVED);
         // Note: Admin relationship can be added when Admin entity is updated
+
+        // Mark payment as COMPLETED when application is approved
+        // Autowire PaymentService or PaymentRepository as needed
+        // If multiple payments per application, update all to COMPLETED
+        Optional<Payment> paymentOpt = paymentRepository.findByApplication_ApplicationId(applicationId);
+        if (paymentOpt.isPresent()) {
+            Payment payment = paymentOpt.get();
+            if (payment.getStatus() == PaymentStatus.PENDING) {
+                payment.setStatus(PaymentStatus.COMPLETED);
+                payment.setPaymentDate(java.time.LocalDateTime.now());
+                paymentRepository.save(payment);
+            }
+        }
 
         return applicationRepository.save(application);
     }

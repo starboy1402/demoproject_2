@@ -307,5 +307,74 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 });
 
+// Phase 2.5: User Profile Completion System
+// Check if user has completed CitizenProfile before allowing service access
+function checkProfileAndNavigate(serviceUrl) {
+  // First check if user is logged in
+  const isLoggedIn = localStorage.getItem('isLoggedIn');
 
+  if (!isLoggedIn || isLoggedIn !== 'true') {
+    alert('আপনাকে প্রথমে লগইন করতে হবে!');
+    window.location.href = 'section/login.html';
+    return;
+  }
 
+  // Get user info from localStorage using the new session management
+  const currentUser = getCurrentUser();
+
+  if (!currentUser || !currentUser.userId) {
+    alert('ব্যবহারকারীর তথ্য পাওয়া যায়নি। অনুগ্রহ করে আবার লগইন করুন।');
+    window.location.href = 'section/login.html';
+    return;
+  }
+
+  // Check if user has completed CitizenProfile
+  checkCitizenProfile(currentUser.userId, serviceUrl);
+}
+
+function checkCitizenProfile(userId, serviceUrl) {
+  // Call backend to check if user has CitizenProfile
+  fetch(`http://localhost:8080/api/citizen/profile/check/${userId}`)
+    .then(response => {
+      if (response.ok) {
+        return response.json();
+      }
+      throw new Error('Profile check failed');
+    })
+    .then(data => {
+      if (data.hasProfile) {
+        // User has completed profile, allow access to service
+        window.location.href = serviceUrl;
+      } else {
+        // User needs to complete profile first
+        alert('সেবা ব্যবহারের আগে আপনার প্রোফাইল সম্পূর্ণ করুন।');
+        window.location.href = 'section/userdashboard.html#profile-section';
+      }
+    })
+    .catch(error => {
+      console.error('Error checking citizen profile:', error);
+      // For now, show error and redirect to dashboard
+      alert('প্রোফাইল যাচাই করতে সমস্যা হয়েছে। অনুগ্রহ করে আপনার প্রোফাইল সম্পূর্ণ করুন।');
+      window.location.href = 'section/userdashboard.html#profile-section';
+    });
+}
+
+// Session Management Functions
+function getCurrentUser() {
+  const userJson = localStorage.getItem('currentUser');
+  if (userJson) {
+    const user = JSON.parse(userJson);
+    // Check if login is still valid (not expired)
+    if (user.isLoggedIn) {
+      return user;
+    }
+  }
+  return null;
+}
+
+function logoutUser() {
+  localStorage.removeItem('currentUser');
+  localStorage.removeItem('isLoggedIn');
+  alert('আপনি লগআউট হয়েছেন! You have been logged out!');
+  window.location.href = 'section/login.html';
+}

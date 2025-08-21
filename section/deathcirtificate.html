@@ -10,7 +10,7 @@
   <link rel="stylesheet" href="../css/style.css">
   <style>
     .input-style {
-      color: gray ;
+      color: gray;
       border: 1px solid #ccc;
       border-radius: 4px;
       padding: 8px;
@@ -26,6 +26,49 @@
       <h3 class="text-3xl font-bold text-center mb-12 text-white">মৃত্যু আবেদন</h3>
       <div class="max-w-4xl mx-auto bg-gray-50 p-8 rounded-lg shadow-md">
         <form action="../section/paymentpage.html" method="get" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <script>
+            // Security: Only allow if logged in and citizen profile is complete
+            const user = JSON.parse(localStorage.getItem('currentUser') || '{}');
+            if (!localStorage.getItem('isLoggedIn') || localStorage.getItem('isLoggedIn') !== 'true' || !user.userId) {
+              window.location.href = 'login.html';
+            }
+            // Fetch citizen profile and pre-fill form
+            document.addEventListener('DOMContentLoaded', function () {
+              fetch(`http://localhost:8080/api/citizen/profile/${user.userId}`)
+                .then(res => res.json())
+                .then(data => {
+                  document.getElementById('full-name').value = data.name || '';
+                  document.getElementById('father-name').value = data.fathersName || '';
+                  document.getElementById('mother-name').value = data.mothersName || '';
+                  document.getElementById('dob').value = data.dateOfBirth || '';
+                  document.getElementById('nid-number').value = data.nidNumber || '';
+                });
+              // Form submit logic
+              const form = document.querySelector('form');
+              form.addEventListener('submit', function (e) {
+                e.preventDefault();
+                const formData = new FormData(form);
+                formData.append('userId', user.userId);
+                if (form['passport-photo']) formData.append('passportPhoto', form['passport-photo'].files[0]);
+                if (form['nid-scan']) formData.append('nidScan', form['nid-scan'].files[0]);
+                fetch('http://localhost:8080/api/application/death', {
+                  method: 'POST',
+                  body: formData
+                })
+                  .then(res => {
+                    if (res.ok) {
+                      alert('Application submitted successfully!');
+                      form.reset();
+                    } else {
+                      alert('Error submitting application.');
+                    }
+                  })
+                  .catch(() => {
+                    alert('Error submitting application.');
+                  });
+              });
+            });
+          </script>
 
           <div class="md:col-span-2">
             <h4 class="text-xl font-semibold text-gray-900 mb-4 border-b pb-2">Personal Information</h4>

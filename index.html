@@ -44,9 +44,9 @@
             <!-- <li><a href="section/faqs.html" class="hover:text-blue-200 transition duration-300">FAQs</a></li>
                      -->
             <li><a href="section/complaint.html" class="hover:text-blue-200 transition duration-300">Complaint</a></li>
-            <li><a href="section/userdashboard.html" class="hover:text-blue-200 transition duration-300">Dashboard</a>
-            </li>
-            <li><a href="section/login.html"
+            <li id="dashboard-link" style="display:none;"><a href="section/userdashboard.html"
+                class="hover:text-blue-200 transition duration-300">Dashboard</a></li>
+            <li id="login-link" style="display:none;"><a href="section/login.html"
                 class="bg-green-600 px-4 py-2 rounded-full hover:bg-blue-800 transition duration-300 shadow-md">Login</a>
             </li>
           </ul>
@@ -118,13 +118,13 @@
           <div class="arrow arrow-6"></div>
 
           <!-- Service Cards with Inline SVG Icons -->
-          <div class="service-card card-1" onclick="location.href='section/marriagecirtificate.html'">
+          <div class="service-card card-1" onclick="checkProfileAndNavigate('section/marriagecirtificate.html')">
 
             <img src="https://cgpoura.gov.bd/assets/icon/bibahito.png" class="mb-2" alt="">
             <p>বিবাহিত আবেদন</p>
           </div>
 
-          <div class="service-card card-2" onclick="location.href='section/characteristics.html'">
+          <div class="service-card card-2" onclick="checkProfileAndNavigate('section/characteristics.html')">
 
             <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path
@@ -142,7 +142,7 @@
             <p>চারিত্রিক আবেদন</p>
           </div>
 
-          <div class="service-card card-3" onclick="location.href='section/deathcirtificate.html'">
+          <div class="service-card card-3" onclick="checkProfileAndNavigate('section/deathcirtificate.html')">
             <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path
                 d="M14 2H6C5.46957 2 4.96086 2.21071 4.58579 2.58579C4.21071 2.96086 4 3.46957 4 4V20C4 20.5304 4.21071 21.0391 4.58579 21.4142C4.96086 21.7893 5.46957 22 6 22H18C18.5304 22 19.0391 21.7893 19.4142 21.4142C19.7893 21.0391 20 20.5304 20 20V8L14 2Z"
@@ -155,7 +155,7 @@
             <p>মৃত্যু আবেদন</p>
           </div>
 
-          <div class="service-card card-4" onclick="location.href='section/citizen.html'">
+          <div class="service-card card-4" onclick="checkProfileAndNavigate('section/citizen.html')">
             <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M17 21V19C17 16.7909 15.2091 15 13 15H8C5.79086 15 4 16.7909 4 19V21" stroke="#60A5FA"
                 stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
@@ -171,7 +171,7 @@
             <p>নাগরিক আবেদন</p>
           </div>
 
-          <div class="service-card card-5" onclick="location.href='section/disabilityCirtificate.html'">
+          <div class="service-card card-5" onclick="checkProfileAndNavigate('section/disabilityCirtificate.html')">
             <svg xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 640 640"><!--!Font Awesome Free v7.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.-->
               <path
@@ -180,7 +180,7 @@
             <p>প্রতিবন্ধী আবেদন</p>
           </div>
 
-          <div class="service-card card-6" onclick="location.href='section/newholdingcirtificate.html'">
+          <div class="service-card card-6" onclick="checkProfileAndNavigate('section/newholdingcirtificate.html')">
             <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path
                 d="M3 9L12 2L21 9V20C21 20.5304 20.7893 21.0391 20.4142 21.4142C20.0391 21.7893 19.5304 22 19 22H5C4.46957 22 3.96086 21.7893 3.58579 21.4142C3.21071 21.0391 3 20.5304 3 20V9Z"
@@ -227,8 +227,7 @@
       <div
         class="flex flex-col md:flex-row-reverse items-center md:items-center gap-10 mb-12 p-6 rounded-lg transform transition duration-700 hover:scale-[1.01] hover:shadow-lg animate-fade-in-right">
         <div class="w-full md:w-1/3">
-          <img src="image/image.png" alt="Rakib Hossain"
-            class="rounded-full shadow-md w-full object-cover">
+          <img src="image/image.png" alt="Rakib Hossain" class="rounded-full shadow-md w-full object-cover">
         </div>
         <div class="w-full md:w-2/3 text-right md:text-left mt-3">
           <h3 class="text-2xl font-bold mb-2 text-white">Md. Mahfuj</h3>
@@ -260,7 +259,7 @@
       <div
         class="flex flex-col md:flex-row-reverse items-center md:items-center gap-10 p-6 rounded-lg transform transition duration-700 hover:scale-[1.01] hover:shadow-lg animate-fade-in-right mt-10 mb-40">
         <div class="w-full md:w-1/3">
-          <img src="image/Screenshot 2025-08-12 120215.png"  class="rounded-full shadow-md w-full object-cover">
+          <img src="image/Screenshot 2025-08-12 120215.png" class="rounded-full shadow-md w-full object-cover">
         </div>
         <div class="w-full md:w-2/3 text-right md:text-left">
           <h3 class="text-2xl font-bold mb-2 text-white">Sakib Hasan Alif</h3>
@@ -297,20 +296,23 @@
             <h5 class="font-bold text-gray-100 mb-3">Connect With Us</h5>
             <div class="flex justify-center space-x-4">
               <!-- Social Media Icons (placeholders) -->
-              <a href="https://www.facebook.com/sakib.hasan.alif.27260" target="_blank" class="text-gray-300 hover:text-white transition duration-200">
+              <a href="https://www.facebook.com/sakib.hasan.alif.27260" target="_blank"
+                class="text-gray-300 hover:text-white transition duration-200">
                 <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                   <path fill-rule="evenodd"
                     d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33V22H12c5.523 0 10-4.477 10-10z"
                     clip-rule="evenodd" />
                 </svg>
               </a>
-              <a href="https://www.instagram.com/_alif_2002/" target="_blank" class="text-gray-300 hover:text-white transition duration-200">
+              <a href="https://www.instagram.com/_alif_2002/" target="_blank"
+                class="text-gray-300 hover:text-white transition duration-200">
                 <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                   <path
                     d="M5 3c-1.105 0-2 .895-2 2v14c0 1.105.895 2 2 2h14c1.105 0 2-.895 2-2V5c0-1.105-.895-2-2-2H5zm11.5 4a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zm-5 12a5 5 0 110-10 5 5 0 010 10z" />
                 </svg>
               </a>
-              <a href="https://github.com/starboy1402/demoproject_2" target="_blank" class="text-gray-300 hover:text-white transition duration-200">
+              <a href="https://github.com/starboy1402/demoproject_2" target="_blank"
+                class="text-gray-300 hover:text-white transition duration-200">
                 <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                   <path
                     d="M12 2C6.477 2 2 6.477 2 12c0 4.418 2.865 8.163 6.839 9.489.5.092.682-.217.682-.483 0-.237-.009-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.465-1.11-1.465-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.529 2.341 1.088 2.91.829.092-.643.359-1.088.65-1.338-2.22-.253-4.555-1.119-4.555-4.95 0-1.091.39-1.984 1.029-2.682-.103-.253-.446-1.272.097-2.65 0 0 .84-.268 2.75 1.025A9.43 9.43 0 0112 6.8c.85.004 1.701.113 2.504.337 1.909-1.293 2.747-1.025 2.747-1.025.546 1.379.202 2.398.099 2.651.64.698 1.028 1.591 1.028 2.682 0 3.841-2.339 4.681-4.566 4.929.359.307.678.915.678 1.846 0 1.338-.012 2.419-.012 2.747 0 .268.18.579.688.482A10 10 0 0022 12c0-5.523-4.477-10-10-10z" />
@@ -332,6 +334,21 @@
   </div>
   <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
   <script src="js/script.js"></script>
+  <script>
+    // Show/hide Login and Dashboard links based on session
+    document.addEventListener('DOMContentLoaded', function () {
+      const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+      const dashboardLink = document.getElementById('dashboard-link');
+      const loginLink = document.getElementById('login-link');
+      if (isLoggedIn) {
+        dashboardLink.style.display = '';
+        loginLink.style.display = 'none';
+      } else {
+        dashboardLink.style.display = 'none';
+        loginLink.style.display = '';
+      }
+    });
+  </script>
 </body>
 
 </html>
